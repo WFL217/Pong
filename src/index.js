@@ -70,18 +70,36 @@ class Game extends React.Component {
 
     // Handle user input.
     handleKeyPress(e) {
-        if (e.keyCode === 38) {
-            console.log("Up was pressed");
-            let currentPosition = this.state.leftPaddleTop;
-            this.setState({
-                leftPaddleTop: currentPosition - PADDLE_SPEED,
-            });
-        } else if (e.keyCode === 40) {
-            console.log("Down was pressed");
-            let currentPosition = this.state.leftPaddleTop;
-            this.setState({
-                leftPaddleTop: currentPosition + PADDLE_SPEED,
-            });
+        let currentLeftPosition = this.state.leftPaddleTop;
+        let currentRightPosition = this.state.rightPaddleTop;
+
+        switch (e.keyCode) {
+            case 38:
+                console.log("Up was pressed");
+                this.setState({
+                    leftPaddleTop: currentLeftPosition - PADDLE_SPEED,
+                });
+                break;
+            case 40:
+                console.log("Down was pressed");
+                this.setState({
+                    leftPaddleTop: currentLeftPosition + PADDLE_SPEED,
+                });
+                break;
+            case 87:
+                console.log("w was pressed");
+                this.setState({
+                    rightPaddleTop: currentRightPosition - PADDLE_SPEED,
+                });
+                break;
+            case 83:
+                console.log("s was pressed");
+                this.setState({
+                    rightPaddleTop: currentRightPosition + PADDLE_SPEED,
+                });
+                break;
+            default:
+                break;
         }
     }
 
