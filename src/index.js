@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-console.log("sin of 30 degrees ", Math.sin(30 * Math.PI / 180));
-
 const PADDLE_SPEED = 10;
 
 function Ball(props) {
@@ -63,37 +61,35 @@ class Game extends React.Component {
         this.focusRef.current.focus();
     }
 
-    /*//Set focus anytime a component updates.
-    componentDidUpdate() {
-        this.focusRef.current.focus();
-    }*/
-
     // Handle user input.
     handleKeyPress(e) {
         let currentLeftPosition = this.state.leftPaddleTop;
         let currentRightPosition = this.state.rightPaddleTop;
 
         switch (e.keyCode) {
+            // Up arrow.
             case 38:
-                console.log("Up was pressed");
                 this.setState({
                     leftPaddleTop: currentLeftPosition - PADDLE_SPEED,
                 });
                 break;
+
+            // Down arrow.
             case 40:
-                console.log("Down was pressed");
                 this.setState({
                     leftPaddleTop: currentLeftPosition + PADDLE_SPEED,
                 });
                 break;
+
+            // W key.
             case 87:
-                console.log("w was pressed");
                 this.setState({
                     rightPaddleTop: currentRightPosition - PADDLE_SPEED,
                 });
                 break;
+
+            // S key.
             case 83:
-                console.log("s was pressed");
                 this.setState({
                     rightPaddleTop: currentRightPosition + PADDLE_SPEED,
                 });
