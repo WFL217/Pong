@@ -48,12 +48,23 @@ class Game extends React.Component {
             leftPaddleTop: 225,
             rightPaddleTop: 225,
         }
-        
+
+        // Array to handle key inputs.
+        this.keysPressed = [];
+
+        // Ref to keep focus on the board.
         this.focusRef = React.createRef();
 
-        // Setup event handler for keyboard input.
-        this.handleKeyPress = this.handleKeyPress.bind(this);
-        document.addEventListener('keydown', this.handleKeyPress);
+        // Setup event handler for keyboard input when pressing a key.
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        document.addEventListener('keydown', this.handleKeyDown);
+
+        // Setup event handler for keyboard input when releasing a key.
+        this.handleKeyUp = this.handleKeyUp.bind(this);
+        document.addEventListener('keyup', this.handleKeyUp); 
+
+        // Call the gameLoop every ### milliseconds to handle pressed keys.
+        setInterval(() => { this.gameLoop(); }, 1000);
     }
 
     // Set focus at first render.
@@ -61,9 +72,16 @@ class Game extends React.Component {
         this.focusRef.current.focus();
     }
 
-    // Handle user input.
-    handleKeyPress(e) {
-        let currentLeftPosition = this.state.leftPaddleTop;
+    gameLoop() {
+        console.log(this.keysPressed);
+    }
+
+    // Handle user input when key is pressed.
+    handleKeyDown(e) {
+        this.keysPressed[e.keyCode] = true;
+
+
+        /*let currentLeftPosition = this.state.leftPaddleTop;
         let currentRightPosition = this.state.rightPaddleTop;
 
         switch (e.keyCode) {
@@ -96,7 +114,12 @@ class Game extends React.Component {
                 break;
             default:
                 break;
-        }
+        }*/
+    }
+
+    // Handle user input when key is released.
+    handleKeyUp(e) {
+        delete this.keysPressed[e.keyCode];
     }
 
     render() {
