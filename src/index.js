@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const PADDLE_SPEED = 15;
+const PADDLE_SPEED = 17;
 
 function Ball(props) {
     return (
@@ -87,29 +87,29 @@ class Game extends React.Component {
         let currentLeftPosition = this.state.leftPaddleTop;
         let currentRightPosition = this.state.rightPaddleTop;
 
-        // Up arrow.
-        if (this.keysPressed[38]) {
+        // W key.
+        if (this.keysPressed[87]) {
             this.setState({
                 leftPaddleTop: currentLeftPosition - PADDLE_SPEED,
             });
         }
 
-        // Down arrow.
-        if (this.keysPressed[40]) {
+        // S key.
+        if (this.keysPressed[83]) {
             this.setState({
                 leftPaddleTop: currentLeftPosition + PADDLE_SPEED,
             });
         }
 
-        // W key.
-        if (this.keysPressed[87]) {
+        // Up arrow.
+        if (this.keysPressed[38]) {
             this.setState({
                 rightPaddleTop: currentRightPosition - PADDLE_SPEED,
             });
         }
 
-        // S key.
-        if (this.keysPressed[83]) {
+        // Down arrow.
+        if (this.keysPressed[40]) {
             this.setState({
                 rightPaddleTop: currentRightPosition + PADDLE_SPEED,
             });
