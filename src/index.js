@@ -43,11 +43,11 @@ class Game extends React.Component {
             rightPaddleTop: 225,
         }
 
+        // Ref to set focus on the Game.
+        this.focusRef = React.createRef();
+
         // Array to handle key inputs.
         this.keysPressed = [];
-
-        // Ref to keep focus on the board.
-        this.focusRef = React.createRef();
 
         // Setup event handler for keyboard input when pressing a key.
         this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -57,10 +57,7 @@ class Game extends React.Component {
         this.handleKeyUp = this.handleKeyUp.bind(this);
         document.addEventListener('keyup', this.handleKeyUp); 
 
-        // Bind this to resolvePressedKeys so it knows what this is.
-        this.resolvePressedKeys = this.resolvePressedKeys.bind(this);
-
-        // Call the gameLoop every ### milliseconds (## fps) to handle pressed keys.
+        // Call the gameLoop every 33.3 milliseconds (30 fps).
         setInterval(() => { this.gameLoop(); }, 33.3);
     }
 
@@ -69,49 +66,50 @@ class Game extends React.Component {
         this.focusRef.current.focus();
     }
 
+    // The loop of the game that will handle user input and updating the ball's position and movement.
     gameLoop() {
         this.resolvePressedKeys();
     }
 
-    // Handle user input when key is pressed.
+    // Set index of keyCode in keysPressed to true when a key is pressed.
     handleKeyDown(e) {
         this.keysPressed[e.keyCode] = true;
     }
 
-    // Handle user input when key is released.
+    // Set index of keyCode in keysPressed to empty when a key is released.
     handleKeyUp(e) {
         delete this.keysPressed[e.keyCode];
     }
 
+    // Update the position of a paddle depending on which key was pressed.
     resolvePressedKeys() {
-        let currentLeftPosition = this.state.leftPaddleTop;
-        let currentRightPosition = this.state.rightPaddleTop;
-
+        // Left paddle movement.
         // W key.
         if (this.keysPressed[87]) {
             this.setState({
-                leftPaddleTop: currentLeftPosition - PADDLE_SPEED,
+                leftPaddleTop: this.state.leftPaddleTop - PADDLE_SPEED,
             });
         }
 
         // S key.
         if (this.keysPressed[83]) {
             this.setState({
-                leftPaddleTop: currentLeftPosition + PADDLE_SPEED,
+                leftPaddleTop: this.state.leftPaddleTop + PADDLE_SPEED,
             });
         }
 
+        // Right paddle movement.
         // Up arrow.
         if (this.keysPressed[38]) {
             this.setState({
-                rightPaddleTop: currentRightPosition - PADDLE_SPEED,
+                rightPaddleTop: this.state.rightPaddleTop - PADDLE_SPEED,
             });
         }
 
         // Down arrow.
         if (this.keysPressed[40]) {
             this.setState({
-                rightPaddleTop: currentRightPosition + PADDLE_SPEED,
+                rightPaddleTop: this.state.rightPaddleTop + PADDLE_SPEED,
             });
         }
     }
