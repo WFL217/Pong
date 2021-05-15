@@ -2,11 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+const BALL_SPEED = 1;
 const PADDLE_SPEED = 17;
 
 function Ball(props) {
     return (
-        <div className='ball'>
+        <div className='ball' style={{ position: props.position, zIndex: props.zIndex, top: props.top + 'px', left: props.left + 'px' }}>
             <ol>Ball</ol>
         </div>
     );
@@ -26,11 +27,9 @@ class Paddle extends React.Component {
 function Board(props) {
     return (
         <div>
-            <Paddle value={0} position={'absolute'} zIndex={'10'} left={'4px'} top={props.leftPaddleTop}/>
-            <Paddle value={1} position={'absolute'} zIndex={'10'} left={'786px'} top={props.rightPaddleTop}/>
-            <div style={{ position: 'absolute', zIndex: '20', top: '247px', left: '50px' }}>
-                <Ball />
-            </div>
+            <Paddle value={0} position={'absolute'} zIndex={'10'} left={'4px'} top={props.leftPaddleTop} />
+            <Paddle value={1} position={'absolute'} zIndex={'10'} left={'786px'} top={props.rightPaddleTop} />
+            <Ball position={'absolute'} zIndex={'20'} left={props.ballLeft} top={props.ballTop} />
         </div>
     );
 }
@@ -39,6 +38,8 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            ballTop: 245,
+            ballLeft: 395,
             leftPaddleTop: 225,
             rightPaddleTop: 225,
         }
@@ -68,7 +69,14 @@ class Game extends React.Component {
 
     // The loop of the game that will handle user input and updating the ball's position and movement.
     gameLoop() {
+        this.updateBallPosition();
         this.resolvePressedKeys();
+    }
+
+    updateBallPosition() {
+        this.setState({
+            ballLeft: this.state.ballLeft + BALL_SPEED,
+        });
     }
 
     // Set index of keyCode in keysPressed to true when a key is pressed.
@@ -118,7 +126,7 @@ class Game extends React.Component {
         return (
             <div>
                 <div className='gameboard' style={{ position: 'absolute' }} tabIndex="0" ref={this.focusRef}>
-                    <Board leftPaddleTop={this.state.leftPaddleTop} rightPaddleTop={this.state.rightPaddleTop}/>
+                    <Board leftPaddleTop={this.state.leftPaddleTop} rightPaddleTop={this.state.rightPaddleTop} ballLeft={this.state.ballLeft} ballTop={this.state.ballTop}/>
                 </div>
             </div>
         );
