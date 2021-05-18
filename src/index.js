@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const BALL_SPEED = 1;
+const BALL_SPEED = 15;
 const PADDLE_SPEED = 17;
 
 function Ball(props) {
@@ -42,6 +42,8 @@ class Game extends React.Component {
             ballLeft: 395,
             leftPaddleTop: 225,
             rightPaddleTop: 225,
+            ballTopDirection: 1,
+            ballLeftDirection: 1,
         }
 
         // Ref to set focus on the Game.
@@ -70,13 +72,39 @@ class Game extends React.Component {
     // The loop of the game that will handle user input and updating the ball's position and movement.
     gameLoop() {
         this.updateBallPosition();
+        this.checkForBallCollision();
         this.resolvePressedKeys();
     }
 
     updateBallPosition() {
         this.setState({
-            ballLeft: this.state.ballLeft + BALL_SPEED,
+            //ballTop: this.state.ballTop + (BALL_SPEED * this.state.ballTopDirection),
+            ballLeft: this.state.ballLeft + (BALL_SPEED * this.state.ballLeftDirection),
         });
+    }
+
+    checkForBallCollision() {
+        // Collision with left paddle.
+        if ((this.state.ballLeftDirection < 0) &&
+            (this.state.ballLeft - BALL_SPEED) <= 15 &&
+            (this.state.ballTop + 10 >= this.state.leftPaddleTop) &&
+            (this.state.ballTop <= this.state.leftPaddleTop + 50)) {
+            this.setState({
+                ballLeft: 15,
+                ballLeftDirection: this.state.ballLeftDirection * -1,
+            });
+        }
+
+        // Collision with right paddle.
+        if ((this.state.ballLeftDirection > 0) &&
+            (this.state.ballLeft + BALL_SPEED) >= 775 &&
+            (this.state.ballTop + 10 >= this.state.rightPaddleTop) &&
+            (this.state.ballTop <= this.state.rightPaddleTop + 50)) {
+            this.setState({
+                ballLeft: 775,
+                ballLeftDirection: this.state.ballLeftDirection * -1,
+            });
+        }
     }
 
     // Set index of keyCode in keysPressed to true when a key is pressed.
