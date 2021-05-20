@@ -60,7 +60,7 @@ class Game extends React.Component {
         this.handleKeyUp = this.handleKeyUp.bind(this);
         document.addEventListener('keyup', this.handleKeyUp); 
 
-        // Call the gameLoop every 33.3 milliseconds (30 fps).
+        // Call the gameLoop every 33.3 milliseconds.
         setInterval(() => { this.gameLoop(); }, 33.3);
     }
 
@@ -85,10 +85,11 @@ class Game extends React.Component {
 
     checkForBallCollision() {
         // Collision with left paddle.
-        if ((this.state.ballLeftDirection < 0) &&
-            (this.state.ballLeft - BALL_SPEED) <= 15 &&
-            (this.state.ballTop + 10 >= this.state.leftPaddleTop) &&
-            (this.state.ballTop <= this.state.leftPaddleTop + 50)) {
+        if ((this.state.ballLeftDirection < 0) &&                       // If ball is moving left AND
+            (this.state.ballLeft - BALL_SPEED) <= 15 &&                 // If the current ball left position minus its speed is <= to the position of the right side of the left paddle AND
+            (this.state.ballTop + 10 >= this.state.leftPaddleTop) &&    // If the ball is below the top position of the left paddle AND
+            (this.state.ballTop <= this.state.leftPaddleTop + 50)) {    // If the ball is above the bottom position of the left paddle.
+            // Make the ball hit the left paddle and change the left direction of the ball.
             this.setState({
                 ballLeft: 15,
                 ballLeftDirection: this.state.ballLeftDirection * -1,
@@ -96,10 +97,11 @@ class Game extends React.Component {
         }
 
         // Collision with right paddle.
-        if ((this.state.ballLeftDirection > 0) &&
-            (this.state.ballLeft + BALL_SPEED) >= 775 &&
-            (this.state.ballTop + 10 >= this.state.rightPaddleTop) &&
-            (this.state.ballTop <= this.state.rightPaddleTop + 50)) {
+        if ((this.state.ballLeftDirection > 0) &&                       // If the ball is moving right AND
+            (this.state.ballLeft + BALL_SPEED) >= 775 &&                // If the current ball right position plus its speed is >= to the position of the left side of the right paddle AND
+            (this.state.ballTop + 10 >= this.state.rightPaddleTop) &&   // If the ball is below the top position of the right paddle AND
+            (this.state.ballTop <= this.state.rightPaddleTop + 50)) {   // If the ball is above the bottom position of the right paddle.
+            // Make the ball hit the left paddle and change the left direction of the ball.
             this.setState({
                 ballLeft: 775,
                 ballLeftDirection: this.state.ballLeftDirection * -1,
@@ -152,10 +154,8 @@ class Game extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className='gameboard' style={{ position: 'absolute' }} tabIndex="0" ref={this.focusRef}>
-                    <Board leftPaddleTop={this.state.leftPaddleTop} rightPaddleTop={this.state.rightPaddleTop} ballLeft={this.state.ballLeft} ballTop={this.state.ballTop}/>
-                </div>
+            <div className='gameboard' style={{ position: 'absolute' }} tabIndex="0" ref={this.focusRef}>
+                <Board leftPaddleTop={this.state.leftPaddleTop} rightPaddleTop={this.state.rightPaddleTop} ballLeft={this.state.ballLeft} ballTop={this.state.ballTop} />
             </div>
         );
     }
