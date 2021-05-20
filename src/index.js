@@ -27,7 +27,7 @@ class Paddle extends React.Component {
 function Board(props) {
     return (
         <div>
-            <Paddle value={0} position={'absolute'} zIndex={'10'} left={'4px'} top={props.leftPaddleTop} />
+            <Paddle value={0} position={'absolute'} zIndex={'10'} left={'2px'} top={props.leftPaddleTop} />
             <Paddle value={1} position={'absolute'} zIndex={'10'} left={'786px'} top={props.rightPaddleTop} />
             <Ball position={'absolute'} zIndex={'20'} left={props.ballLeft} top={props.ballTop} />
         </div>
@@ -86,19 +86,19 @@ class Game extends React.Component {
     checkForBallCollision() {
         // Collision with left paddle.
         if ((this.state.ballLeftDirection < 0) &&                       // If ball is moving left AND
-            (this.state.ballLeft - BALL_SPEED) <= 15 &&                 // If the current ball left position minus its speed is <= to the position of the right side of the left paddle AND
+            (this.state.ballLeft - BALL_SPEED <= 13) &&                 // If the current ball left position minus its speed is <= to the position of the right side of the left paddle AND
             (this.state.ballTop + 10 >= this.state.leftPaddleTop) &&    // If the ball is below the top position of the left paddle AND
             (this.state.ballTop <= this.state.leftPaddleTop + 50)) {    // If the ball is above the bottom position of the left paddle.
             // Make the ball hit the left paddle and change the left direction of the ball.
             this.setState({
-                ballLeft: 15,
+                ballLeft: 13,
                 ballLeftDirection: this.state.ballLeftDirection * -1,
             });
         }
 
         // Collision with right paddle.
         if ((this.state.ballLeftDirection > 0) &&                       // If the ball is moving right AND
-            (this.state.ballLeft + BALL_SPEED) >= 775 &&                // If the current ball right position plus its speed is >= to the position of the left side of the right paddle AND
+            (this.state.ballLeft + BALL_SPEED >= 775) &&                // If the current ball right position plus its speed is >= to the position of the left side of the right paddle AND
             (this.state.ballTop + 10 >= this.state.rightPaddleTop) &&   // If the ball is below the top position of the right paddle AND
             (this.state.ballTop <= this.state.rightPaddleTop + 50)) {   // If the ball is above the bottom position of the right paddle.
             // Make the ball hit the left paddle and change the left direction of the ball.
@@ -110,7 +110,7 @@ class Game extends React.Component {
 
         // Collision with top wall.
         if ((this.state.ballTopDirection < 0) &&        // If the ball is moving up AND
-            (this.state.ballTop - BALL_SPEED <= -1)) {   // If the current ball top position minus its speed is <= to the position of the top wall.
+            (this.state.ballTop - BALL_SPEED <= -1)) {  // If the current ball top position minus its speed is <= to the position of the top wall.
             this.setState({
                 ballTop: -1,
                 ballTopDirection: this.state.ballTopDirection * -1,
