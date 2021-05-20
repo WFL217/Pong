@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 const BALL_SPEED = 15;
-const PADDLE_SPEED = 17;
+const PADDLE_SPEED = 15;
 
 function Ball(props) {
     return (
@@ -78,7 +78,7 @@ class Game extends React.Component {
 
     updateBallPosition() {
         this.setState({
-            //ballTop: this.state.ballTop + (BALL_SPEED * this.state.ballTopDirection),
+            ballTop: this.state.ballTop + (BALL_SPEED * this.state.ballTopDirection),
             ballLeft: this.state.ballLeft + (BALL_SPEED * this.state.ballLeftDirection),
         });
     }
@@ -105,6 +105,24 @@ class Game extends React.Component {
             this.setState({
                 ballLeft: 775,
                 ballLeftDirection: this.state.ballLeftDirection * -1,
+            });
+        }
+
+        // Collision with top wall.
+        if ((this.state.ballTopDirection < 0) &&        // If the ball is moving up AND
+            (this.state.ballTop - BALL_SPEED <= -1)) {   // If the current ball top position minus its speed is <= to the position of the top wall.
+            this.setState({
+                ballTop: -1,
+                ballTopDirection: this.state.ballTopDirection * -1,
+            });
+        }
+
+        // Collision with bottom wall.
+        if ((this.state.ballTopDirection > 0) &&        // If the ball is moving up AND
+            (this.state.ballTop + BALL_SPEED >= 489)) { // If the current ball bottom position plus its speed is >= to the position of the bottom wall.
+            this.setState({
+                ballTop: 489,
+                ballTopDirection: this.state.ballTopDirection * -1,
             });
         }
     }
