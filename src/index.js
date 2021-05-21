@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 const BALL_SPEED = 15;
-const PADDLE_SPEED = 15;
+const PADDLE_SPEED = 20;
 
 function Ball(props) {
     return (
@@ -143,14 +143,14 @@ class Game extends React.Component {
         // W key.
         if (this.keysPressed[87]) {
             this.setState({
-                leftPaddleTop: this.state.leftPaddleTop - PADDLE_SPEED,
+                leftPaddleTop: (this.state.leftPaddleTop - PADDLE_SPEED <= - 1) ? -1 : (this.state.leftPaddleTop - PADDLE_SPEED)
             });
         }
 
         // S key.
         if (this.keysPressed[83]) {
             this.setState({
-                leftPaddleTop: this.state.leftPaddleTop + PADDLE_SPEED,
+                leftPaddleTop: (this.state.leftPaddleTop + PADDLE_SPEED >= 449) ? 449 : (this.state.leftPaddleTop + PADDLE_SPEED)
             });
         }
 
@@ -158,14 +158,14 @@ class Game extends React.Component {
         // Up arrow.
         if (this.keysPressed[38]) {
             this.setState({
-                rightPaddleTop: this.state.rightPaddleTop - PADDLE_SPEED,
+                rightPaddleTop: (this.state.rightPaddleTop - PADDLE_SPEED <= - 1) ? -1 : (this.state.rightPaddleTop - PADDLE_SPEED)
             });
         }
 
         // Down arrow.
         if (this.keysPressed[40]) {
             this.setState({
-                rightPaddleTop: this.state.rightPaddleTop + PADDLE_SPEED,
+                rightPaddleTop: (this.state.rightPaddleTop + PADDLE_SPEED >= 449) ? 449 : (this.state.rightPaddleTop + PADDLE_SPEED)
             });
         }
     }
