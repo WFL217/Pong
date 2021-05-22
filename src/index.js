@@ -13,23 +13,35 @@ function Ball(props) {
     );
 }
 
-class Paddle extends React.Component {
-    render() {
-        return (
-            <div className='paddle' id={'paddle' + this.props.value} style={{ position: this.props.position, zIndex: this.props.zIndex, top: this.props.top + 'px', left: this.props.left }}>
-                <ol>Paddle {this.props.value}</ol>
-            </div>
-        );
-    }
+function Paddle(props) {
+    return (
+        <div className='paddle' id={'paddle' + props.value} style={{ position: props.position, zIndex: props.zIndex, top: props.top + 'px', left: props.left}}>
+            <ol>Paddle {props.value}</ol>
+        </div>
+    );
 }
 
 
 function Board(props) {
     return (
-        <div>
+        <div className='gameboard' style={{ position: 'absolute' }} tabIndex="0">
             <Paddle value={0} position={'absolute'} zIndex={'10'} left={'2px'} top={props.leftPaddleTop} />
             <Paddle value={1} position={'absolute'} zIndex={'10'} left={'786px'} top={props.rightPaddleTop} />
             <Ball position={'absolute'} zIndex={'20'} left={props.ballLeft} top={props.ballTop} />
+        </div>
+    );
+}
+
+function Score(props){
+    return (
+        <div style={{ position: 'absolute', left: '399px', top: '500px' }}>
+            <div style={{ position: 'absolute', right: '10px'}}>
+                <h2>0</h2>
+            </div>
+            <h2 style={{ position: 'absolute'}}>:</h2>
+            <div style={{ position: 'absolute', left: '20px' }}>
+                <h2>0</h2>
+            </div>
         </div>
     );
 }
@@ -46,9 +58,6 @@ class Game extends React.Component {
             ballLeftDirection: 1,
         }
 
-        // Ref to set focus on the Game.
-        this.focusRef = React.createRef();
-
         // Array to handle key inputs.
         this.keysPressed = [];
 
@@ -62,11 +71,6 @@ class Game extends React.Component {
 
         // Call the gameLoop every 33.3 milliseconds.
         setInterval(() => { this.gameLoop(); }, 33.3);
-    }
-
-    // Set focus at first render.
-    componentDidMount() {
-        this.focusRef.current.focus();
     }
 
     // The loop of the game that will handle user input and updating the ball's position and movement.
@@ -172,8 +176,9 @@ class Game extends React.Component {
 
     render() {
         return (
-            <div className='gameboard' style={{ position: 'absolute' }} tabIndex="0" ref={this.focusRef}>
+            <div>
                 <Board leftPaddleTop={this.state.leftPaddleTop} rightPaddleTop={this.state.rightPaddleTop} ballLeft={this.state.ballLeft} ballTop={this.state.ballTop} />
+                <Score />
             </div>
         );
     }
