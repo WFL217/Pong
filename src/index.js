@@ -78,9 +78,53 @@ class Game extends React.Component {
 
     // The loop of the game that will handle user input and updating the ball's position and movement.
     gameLoop() {
-        this.updateBallPosition();
-        if (!this.state.goalMade) { this.checkForBallCollision(); }
         this.resolvePressedKeys();
+        this.updateBallPosition();
+        this.checkForBallCollision();
+        if (this.state.goalMade) { this.resetGame(); }
+    }
+
+    // Set index of keyCode in keysPressed to true when a key is pressed.
+    handleKeyDown(e) {
+        this.keysPressed[e.keyCode] = true;
+    }
+
+    // Set index of keyCode in keysPressed to empty when a key is released.
+    handleKeyUp(e) {
+        delete this.keysPressed[e.keyCode];
+    }
+
+    // Update the position of a paddle depending on which key was pressed.
+    resolvePressedKeys() {
+        // Left paddle movement.
+        // W key.
+        if (this.keysPressed[87]) {
+            this.setState({
+                leftPaddleTop: (this.state.leftPaddleTop - PADDLE_SPEED <= - 1) ? -1 : (this.state.leftPaddleTop - PADDLE_SPEED)
+            });
+        }
+
+        // S key.
+        if (this.keysPressed[83]) {
+            this.setState({
+                leftPaddleTop: (this.state.leftPaddleTop + PADDLE_SPEED >= 449) ? 449 : (this.state.leftPaddleTop + PADDLE_SPEED)
+            });
+        }
+
+        // Right paddle movement.
+        // Up arrow.
+        if (this.keysPressed[38]) {
+            this.setState({
+                rightPaddleTop: (this.state.rightPaddleTop - PADDLE_SPEED <= - 1) ? -1 : (this.state.rightPaddleTop - PADDLE_SPEED)
+            });
+        }
+
+        // Down arrow.
+        if (this.keysPressed[40]) {
+            this.setState({
+                rightPaddleTop: (this.state.rightPaddleTop + PADDLE_SPEED >= 449) ? 449 : (this.state.rightPaddleTop + PADDLE_SPEED)
+            });
+        }
     }
 
     updateBallPosition() {
@@ -154,47 +198,16 @@ class Game extends React.Component {
         }
     }
 
-    // Set index of keyCode in keysPressed to true when a key is pressed.
-    handleKeyDown(e) {
-        this.keysPressed[e.keyCode] = true;
-    }
-
-    // Set index of keyCode in keysPressed to empty when a key is released.
-    handleKeyUp(e) {
-        delete this.keysPressed[e.keyCode];
-    }
-
-    // Update the position of a paddle depending on which key was pressed.
-    resolvePressedKeys() {
-        // Left paddle movement.
-        // W key.
-        if (this.keysPressed[87]) {
-            this.setState({
-                leftPaddleTop: (this.state.leftPaddleTop - PADDLE_SPEED <= - 1) ? -1 : (this.state.leftPaddleTop - PADDLE_SPEED)
-            });
-        }
-
-        // S key.
-        if (this.keysPressed[83]) {
-            this.setState({
-                leftPaddleTop: (this.state.leftPaddleTop + PADDLE_SPEED >= 449) ? 449 : (this.state.leftPaddleTop + PADDLE_SPEED)
-            });
-        }
-
-        // Right paddle movement.
-        // Up arrow.
-        if (this.keysPressed[38]) {
-            this.setState({
-                rightPaddleTop: (this.state.rightPaddleTop - PADDLE_SPEED <= - 1) ? -1 : (this.state.rightPaddleTop - PADDLE_SPEED)
-            });
-        }
-
-        // Down arrow.
-        if (this.keysPressed[40]) {
-            this.setState({
-                rightPaddleTop: (this.state.rightPaddleTop + PADDLE_SPEED >= 449) ? 449 : (this.state.rightPaddleTop + PADDLE_SPEED)
-            });
-        }
+    resetGame() {
+        this.setState({
+            ballTop: 245,
+            ballLeft: 395,
+            leftPaddleTop: 225,
+            rightPaddleTop: 225,
+            ballTopDirection: 1,
+            ballLeftDirection: 1,
+            goalMade: false,
+        })
     }
 
     render() {
