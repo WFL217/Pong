@@ -36,11 +36,11 @@ function Score(props){
     return (
         <div style={{ position: 'absolute', left: '399px', top: '500px' }}>
             <div style={{ position: 'absolute', right: '10px'}}>
-                <h2>0</h2>
+                <h2>{props.playerOneScore}</h2>
             </div>
             <h2 style={{ position: 'absolute'}}>:</h2>
             <div style={{ position: 'absolute', left: '20px' }}>
-                <h2>0</h2>
+                <h2>{props.playerTwoScore}</h2>
             </div>
         </div>
     );
@@ -56,6 +56,9 @@ class Game extends React.Component {
             rightPaddleTop: 225,
             ballTopDirection: 1,
             ballLeftDirection: 1,
+            playerOneScore: 0,
+            playerTwoScore: 0,
+            goalMade: false,
         }
 
         // Array to handle key inputs.
@@ -76,7 +79,7 @@ class Game extends React.Component {
     // The loop of the game that will handle user input and updating the ball's position and movement.
     gameLoop() {
         this.updateBallPosition();
-        this.checkForBallCollision();
+        if (!this.state.goalMade) { this.checkForBallCollision(); }
         this.resolvePressedKeys();
     }
 
@@ -90,26 +93,40 @@ class Game extends React.Component {
     checkForBallCollision() {
         // Collision with left paddle.
         if ((this.state.ballLeftDirection < 0) &&                       // If ball is moving left AND
-            (this.state.ballLeft - BALL_SPEED <= 13) &&                 // If the current ball left position minus its speed is <= to the position of the right side of the left paddle AND
-            (this.state.ballTop + 10 >= this.state.leftPaddleTop) &&    // If the ball is below the top position of the left paddle AND
-            (this.state.ballTop <= this.state.leftPaddleTop + 50)) {    // If the ball is above the bottom position of the left paddle.
-            // Make the ball hit the left paddle and change the left direction of the ball.
-            this.setState({
-                ballLeft: 13,
-                ballLeftDirection: this.state.ballLeftDirection * -1,
-            });
+            (this.state.ballLeft - BALL_SPEED <= 13)) {                 // If the current ball left position minus its speed is <= to the position of the right side of the left paddle AND
+            if ((this.state.ballTop + 10 >= this.state.leftPaddleTop) &&    // If the ball is below the top position of the left paddle AND
+                (this.state.ballTop <= this.state.leftPaddleTop + 50)) {    // If the ball is above the bottom position of the left paddle.
+                // Make the ball hit the left paddle and change the left direction of the ball.
+                this.setState({
+                    ballLeft: 13,
+                    ballLeftDirection: this.state.ballLeftDirection * -1,
+                });
+            }
+            else {
+                this.setState({
+                    playerTwoScore: this.state.playerTwoScore + 1,
+                    goalMade: !this.state.goalMade,
+                });
+            }
         }
 
         // Collision with right paddle.
         if ((this.state.ballLeftDirection > 0) &&                       // If the ball is moving right AND
-            (this.state.ballLeft + BALL_SPEED >= 775) &&                // If the current ball right position plus its speed is >= to the position of the left side of the right paddle AND
-            (this.state.ballTop + 10 >= this.state.rightPaddleTop) &&   // If the ball is below the top position of the right paddle AND
-            (this.state.ballTop <= this.state.rightPaddleTop + 50)) {   // If the ball is above the bottom position of the right paddle.
-            // Make the ball hit the left paddle and change the left direction of the ball.
-            this.setState({
-                ballLeft: 775,
-                ballLeftDirection: this.state.ballLeftDirection * -1,
-            });
+            (this.state.ballLeft + BALL_SPEED >= 775)) {                // If the current ball right position plus its speed is >= to the position of the left side of the right paddle AND
+            if ((this.state.ballTop + 10 >= this.state.rightPaddleTop) &&   // If the ball is below the top position of the right paddle AND
+                (this.state.ballTop <= this.state.rightPaddleTop + 50)) {   // If the ball is above the bottom position of the right paddle.
+                // Make the ball hit the left paddle and change the left direction of the ball.
+                this.setState({
+                    ballLeft: 775,
+                    ballLeftDirection: this.state.ballLeftDirection * -1,
+                });
+            }
+            else {
+                this.setState({
+                    playerOneScore: this.state.playerOneScore + 1,
+                    goalMade: !this.state.goalMade,
+                });
+            }
         }
 
         // Collision with top wall.
@@ -178,7 +195,7 @@ class Game extends React.Component {
         return (
             <div>
                 <Board leftPaddleTop={this.state.leftPaddleTop} rightPaddleTop={this.state.rightPaddleTop} ballLeft={this.state.ballLeft} ballTop={this.state.ballTop} />
-                <Score />
+                <Score playerOneScore={this.state.playerOneScore} playerTwoScore={this.state.playerTwoScore}/>
             </div>
         );
     }
