@@ -8,7 +8,6 @@ const PADDLE_SPEED = 20;
 function Ball(props) {
     return (
         <div className='ball' style={{ position: props.position, zIndex: props.zIndex, top: props.top + 'px', left: props.left + 'px' }}>
-            <ol>Ball</ol>
         </div>
     );
 }
@@ -16,7 +15,6 @@ function Ball(props) {
 function Paddle(props) {
     return (
         <div className='paddle' id={'paddle' + props.value} style={{ position: props.position, zIndex: props.zIndex, top: props.top + 'px', left: props.left}}>
-            <ol>Paddle {props.value}</ol>
         </div>
     );
 }
@@ -25,8 +23,8 @@ function Paddle(props) {
 function Board(props) {
     return (
         <div className='gameboard' style={{ position: 'absolute' }} tabIndex="0">
-            <Paddle value={0} position={'absolute'} zIndex={'10'} left={'2px'} top={props.leftPaddleTop} />
-            <Paddle value={1} position={'absolute'} zIndex={'10'} left={'786px'} top={props.rightPaddleTop} />
+            <Paddle position={'absolute'} zIndex={'10'} left={'2px'} top={props.leftPaddleTop} />
+            <Paddle position={'absolute'} zIndex={'10'} left={'786px'} top={props.rightPaddleTop} />
             <Ball position={'absolute'} zIndex={'20'} left={props.ballLeft} top={props.ballTop} />
         </div>
     );
@@ -34,7 +32,7 @@ function Board(props) {
 
 function Score(props){
     return (
-        <div style={{ position: 'absolute', left: '399px', top: '500px' }}>
+        <div style={{ position: 'absolute', left: '407px', top: '500px' }}>
             <div style={{ position: 'absolute', right: '10px'}}>
                 <h2>{props.playerOneScore}</h2>
             </div>
@@ -42,6 +40,14 @@ function Score(props){
             <div style={{ position: 'absolute', left: '20px' }}>
                 <h2>{props.playerTwoScore}</h2>
             </div>
+        </div>
+    );
+}
+
+function Timer(props) {
+    return (
+        <div style={{ position: 'absolute', top: '10px', left: '407px'}}>
+            <h2>{props.timeRemaining}</h2>
         </div>
     );
 }
@@ -59,6 +65,8 @@ class Game extends React.Component {
             playerOneScore: 0,
             playerTwoScore: 0,
             goalMade: false,
+            gameInProgress: true,
+            timer: '',
         }
 
         // Array to handle key inputs.
@@ -72,16 +80,23 @@ class Game extends React.Component {
         this.handleKeyUp = this.handleKeyUp.bind(this);
         document.addEventListener('keyup', this.handleKeyUp); 
 
+        // This will hold the wait timer for when a goal is scored in order to give the players time between rounds to get ready.
+        this.waitTimer = null;
+
         // Call the gameLoop every 33.3 milliseconds.
         setInterval(() => { this.gameLoop(); }, 33.3);
     }
 
     // The loop of the game that will handle user input and updating the ball's position and movement.
     gameLoop() {
-        this.resolvePressedKeys();
-        this.updateBallPosition();
-        this.checkForBallCollision();
-        if (this.state.goalMade) { this.resetGame(); }
+        if (this.state.gameInProgress) {
+            this.resolvePressedKeys();
+            this.updateBallPosition();
+            this.checkForBallCollision();
+            if (this.state.goalMade) {
+                this.checkGameProgress();
+            }
+        }
     }
 
     // Set index of keyCode in keysPressed to true when a key is pressed.
@@ -150,6 +165,7 @@ class Game extends React.Component {
             else {
                 // Update player two's score and set the goalMade flag to true.
                 this.setState({
+                    ballLeft: this.state.ballLeft - BALL_SPEED,
                     playerTwoScore: this.state.playerTwoScore + 1,
                     goalMade: true,
                 });
@@ -171,6 +187,7 @@ class Game extends React.Component {
             else {
                 // Update player one's score and set the goalMade flag to true.
                 this.setState({
+                    ballLeft: this.state.ballLeft + BALL_SPEED,
                     playerOneScore: this.state.playerOneScore + 1,
                     goalMade: true,
                 });
@@ -198,23 +215,55 @@ class Game extends React.Component {
         }
     }
 
-    resetGame() {
-        this.setState({
-            ballTop: 245,
-            ballLeft: 395,
-            leftPaddleTop: 225,
-            rightPaddleTop: 225,
-            ballTopDirection: 1,
-            ballLeftDirection: 1,
-            goalMade: false,
-        })
+    checkGameProgress() {
+        // One of the players has hit the max score, so end the game.
+        if (this.state.playerOneScore >= 5 || this.state.playerTwoScore >= 5) {
+            this.setState({
+                gameInProgress: false,
+            });
+        }
+        // Reset positions of assets and have the players wait 3 seconds before the next round starts.
+        else {
+            this.setState({
+                ballTop: 245,
+                ballLeft: 395,
+                leftPaddleTop: 225,
+                rightPaddleTop: 225,
+                ballTopDirection: 1,
+                ballLeftDirection: 1,
+                goalMade: false,
+                timer: 3,
+                gameInProgress: false,
+            });
+
+            // Have reduceTimer called every second until it gets cleared.
+            this.waitTimer = setInterval(() => { this.reduceTimer() }, 1000);
+        }
+    }
+
+    // Reduce the count of the timer if the count is above 1,
+    // Else remove the timer and resume the game.
+    reduceTimer() {
+        if (this.state.timer > 1) {
+            this.setState({
+                timer: this.state.timer - 1,
+            });
+        }
+        else {
+            this.setState({
+                gameInProgress: true,
+                timer: '',
+            });
+            clearInterval(this.waitTimer);
+        }
     }
 
     render() {
         return (
             <div>
                 <Board leftPaddleTop={this.state.leftPaddleTop} rightPaddleTop={this.state.rightPaddleTop} ballLeft={this.state.ballLeft} ballTop={this.state.ballTop} />
-                <Score playerOneScore={this.state.playerOneScore} playerTwoScore={this.state.playerTwoScore}/>
+                <Score playerOneScore={this.state.playerOneScore} playerTwoScore={this.state.playerTwoScore} />
+                <Timer timeRemaining={this.state.timer} />
             </div>
         );
     }
