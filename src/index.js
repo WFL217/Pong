@@ -19,7 +19,6 @@ function Paddle(props) {
     );
 }
 
-
 function Board(props) {
     return (
         <div className='gameboard' style={{ position: 'absolute' }} tabIndex="0">
@@ -52,6 +51,14 @@ function Timer(props) {
     );
 }
 
+function Result(props) {
+    return (
+        <div style={{ position: 'absolute', top: '150px', left: '325px', textAlign: 'center' }}>
+            <h2>{props.winMessage}</h2>
+        </div>
+    );
+}
+
 class Game extends React.Component {
     constructor(props) {
         super(props);
@@ -67,6 +74,7 @@ class Game extends React.Component {
             goalMade: false,
             gameInProgress: true,
             timer: '',
+            winMessage: '',
         }
 
         // Array to handle key inputs.
@@ -220,6 +228,7 @@ class Game extends React.Component {
         if (this.state.playerOneScore >= 5 || this.state.playerTwoScore >= 5) {
             this.setState({
                 gameInProgress: false,
+                winMessage: (this.state.playerOneScore >= 5) ? "Player 1 Wins!" : "Player 2 Wins!",
             });
         }
         // Reset positions of assets and have the players wait 3 seconds before the next round starts.
@@ -264,6 +273,7 @@ class Game extends React.Component {
                 <Board leftPaddleTop={this.state.leftPaddleTop} rightPaddleTop={this.state.rightPaddleTop} ballLeft={this.state.ballLeft} ballTop={this.state.ballTop} />
                 <Score playerOneScore={this.state.playerOneScore} playerTwoScore={this.state.playerTwoScore} />
                 <Timer timeRemaining={this.state.timer} />
+                <Result winMessage={this.state.winMessage} />
             </div>
         );
     }
