@@ -62,7 +62,7 @@ function Result(props) {
 function Menu(props) {
     return (
         <div style={{ position: 'absolute', left: '370px', top: '550px' }}>
-            <button>{props.buttonText}</button>
+            <button onClick={props.onClick}>{props.buttonText}</button>
         </div>
     );
 }
@@ -80,7 +80,7 @@ class Game extends React.Component {
             playerOneScore: 0,
             playerTwoScore: 0,
             goalMade: false,
-            gameInProgress: true,
+            gameInProgress: false,
             timer: '',
             winMessage: '',
             buttonText: "Start Game"
@@ -96,6 +96,8 @@ class Game extends React.Component {
         // Setup event handler for keyboard input when releasing a key.
         this.handleKeyUp = this.handleKeyUp.bind(this);
         document.addEventListener('keyup', this.handleKeyUp); 
+
+        this.startGame = this.startGame.bind(this);
 
         // This will hold the wait timer for when a goal is scored in order to give the players time between rounds to get ready.
         this.waitTimer = null;
@@ -276,6 +278,13 @@ class Game extends React.Component {
         }
     }
 
+    startGame() {
+        this.setState({
+            buttonText: "Play Again",
+            gameInProgress: true,
+        });
+    }
+
     render() {
         return (
             <div>
@@ -283,7 +292,7 @@ class Game extends React.Component {
                 <Score playerOneScore={this.state.playerOneScore} playerTwoScore={this.state.playerTwoScore} />
                 <Timer timeRemaining={this.state.timer} />
                 <Result winMessage={this.state.winMessage} />
-                <Menu buttonText={this.state.buttonText}/>
+                <Menu buttonText={this.state.buttonText} onClick={this.startGame} />
             </div>
         );
     }
