@@ -59,6 +59,14 @@ function Result(props) {
     );
 }
 
+function Menu(props) {
+    return (
+        <div style={{ position: 'absolute', left: '370px', top: '550px' }}>
+            <button>{props.buttonText}</button>
+        </div>
+    );
+}
+
 class Game extends React.Component {
     constructor(props) {
         super(props);
@@ -75,6 +83,7 @@ class Game extends React.Component {
             gameInProgress: true,
             timer: '',
             winMessage: '',
+            buttonText: "Start Game"
         }
 
         // Array to handle key inputs.
@@ -274,6 +283,7 @@ class Game extends React.Component {
                 <Score playerOneScore={this.state.playerOneScore} playerTwoScore={this.state.playerTwoScore} />
                 <Timer timeRemaining={this.state.timer} />
                 <Result winMessage={this.state.winMessage} />
+                <Menu buttonText={this.state.buttonText}/>
             </div>
         );
     }
