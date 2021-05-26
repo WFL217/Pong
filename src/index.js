@@ -62,7 +62,7 @@ function Result(props) {
 function Menu(props) {
     return (
         <div style={{ position: 'absolute', left: '370px', top: '550px' }}>
-            <button onClick={props.onClick}>{props.buttonText}</button>
+            <button disabled={props.buttonDisabled} onClick={props.onClick}>{props.buttonText}</button>
         </div>
     );
 }
@@ -83,7 +83,8 @@ class Game extends React.Component {
             gameInProgress: false,
             timer: '',
             winMessage: '',
-            buttonText: "Start Game"
+            buttonText: "Start Game",
+            buttonDisabled: false,
         }
 
         // Array to handle key inputs.
@@ -240,6 +241,7 @@ class Game extends React.Component {
             this.setState({
                 gameInProgress: false,
                 winMessage: (this.state.playerOneScore >= 5) ? "Player 1 Wins!" : "Player 2 Wins!",
+                buttonDisabled: false,
             });
         }
         // Reset positions of assets and have the players wait 3 seconds before the next round starts.
@@ -282,6 +284,7 @@ class Game extends React.Component {
         this.setState({
             buttonText: "Play Again",
             gameInProgress: true,
+            buttonDisabled: true,
         });
     }
 
@@ -292,7 +295,7 @@ class Game extends React.Component {
                 <Score playerOneScore={this.state.playerOneScore} playerTwoScore={this.state.playerTwoScore} />
                 <Timer timeRemaining={this.state.timer} />
                 <Result winMessage={this.state.winMessage} />
-                <Menu buttonText={this.state.buttonText} onClick={this.startGame} />
+                <Menu buttonText={this.state.buttonText} onClick={this.startGame} buttonDisabled={this.state.buttonDisabled}/>
             </div>
         );
     }
