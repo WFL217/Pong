@@ -85,6 +85,7 @@ class Game extends React.Component {
             winMessage: '',
             buttonText: "Start Game",
             buttonDisabled: false,
+            buttonFunction: () => { this.startGame() },
         }
 
         // Array to handle key inputs.
@@ -103,8 +104,8 @@ class Game extends React.Component {
         // This will hold the wait timer for when a goal is scored in order to give the players time between rounds to get ready.
         this.waitTimer = null;
 
-        // Call the gameLoop every 33.3 milliseconds.
-        setInterval(() => { this.gameLoop(); }, 33.3);
+        // This will hold the game loop interval and will be set when the game starts, cleared when the game ends.
+        this.gameLoopInterval = null;
     }
 
     // The loop of the game that will handle user input and updating the ball's position and movement.
@@ -238,6 +239,8 @@ class Game extends React.Component {
     checkGameProgress() {
         // One of the players has hit the max score, so end the game.
         if (this.state.playerOneScore >= 5 || this.state.playerTwoScore >= 5) {
+            clearInterval(this.gameLoopInterval);
+
             this.setState({
                 gameInProgress: false,
                 winMessage: (this.state.playerOneScore >= 5) ? "Player 1 Wins!" : "Player 2 Wins!",
@@ -283,9 +286,40 @@ class Game extends React.Component {
     startGame() {
         this.setState({
             buttonText: "Play Again",
-            gameInProgress: true,
+            buttonDisabled: true,
+            buttonFunction: () => { this.resetGame() },
+            timer: '3',
+        });
+
+        // Have reduceTimer called every second until it gets cleared.
+        this.waitTimer = setInterval(() => { this.reduceTimer() }, 1000);
+
+        // Call the gameLoop every 33.3 milliseconds, 30 times a second.
+        this.gameLoopInterval = setInterval(() => { this.gameLoop(); }, 33.3);
+    }
+
+    resetGame() {
+        this.setState({
+            ballTop: 245,
+            ballLeft: 395,
+            leftPaddleTop: 225,
+            rightPaddleTop: 225,
+            ballTopDirection: 1,
+            ballLeftDirection: 1,
+            playerOneScore: 0,
+            playerTwoScore: 0,
+            goalMade: false,
+            gameInProgress: false,
+            timer: '3',
+            winMessage: '',
             buttonDisabled: true,
         });
+
+        // Have reduceTimer called every second until it gets cleared.
+        this.waitTimer = setInterval(() => { this.reduceTimer() }, 1000);
+
+        // Call the gameLoop every 33.3 milliseconds, 30 times a second.
+        this.gameLoopInterval = setInterval(() => { this.gameLoop(); }, 33.3);
     }
 
     render() {
@@ -295,7 +329,7 @@ class Game extends React.Component {
                 <Score playerOneScore={this.state.playerOneScore} playerTwoScore={this.state.playerTwoScore} />
                 <Timer timeRemaining={this.state.timer} />
                 <Result winMessage={this.state.winMessage} />
-                <Menu buttonText={this.state.buttonText} onClick={this.startGame} buttonDisabled={this.state.buttonDisabled}/>
+                <Menu buttonText={this.state.buttonText} onClick={this.state.buttonFunction} buttonDisabled={this.state.buttonDisabled}/>
             </div>
         );
     }
