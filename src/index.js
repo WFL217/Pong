@@ -245,18 +245,20 @@ class Game extends React.Component {
         }
         // Reset positions of assets and have the players wait 3 seconds before the next round starts.
         else {
-            this.setState({
-                ballTop: 245,
-                ballLeft: 395,
-                leftPaddleTop: 225,
-                rightPaddleTop: 225,
-                ballTopDirection: 1,
-                ballLeftDirection: 1,
-                goalMade: false,
-                timer: 3,
-            });
-
-            this.createAndStartCountdownTimer();
+            // Need to wait a second before starting the next round so the players can see where the ball landed in the goal space.
+            setTimeout(() => {
+                this.setState({
+                    ballTop: 245,
+                    ballLeft: 395,
+                    leftPaddleTop: 225,
+                    rightPaddleTop: 225,
+                    ballTopDirection: 1,
+                    ballLeftDirection: 1,
+                    goalMade: false,
+                    timer: 3,
+                });
+                this.createAndStartCountdownTimer();
+            }, 1000);
         }
     }
 
