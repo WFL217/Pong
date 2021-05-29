@@ -80,7 +80,6 @@ class Game extends React.Component {
             playerOneScore: 0,
             playerTwoScore: 0,
             goalMade: false,
-            gameInProgress: false,
             timer: '',
             winMessage: '',
             buttonText: "Start Game",
@@ -110,13 +109,11 @@ class Game extends React.Component {
 
     // The loop of the game that will handle user input and updating the ball's position and movement.
     gameLoop() {
-        if (this.state.gameInProgress) {
-            this.resolvePressedKeys();
-            this.checkForBallCollision();
-            this.updateBallPosition();
-            if (this.state.goalMade) {
-                this.checkGameProgress();
-            }
+        this.resolvePressedKeys();
+        this.checkForBallCollision();
+        this.updateBallPosition();
+        if (this.state.goalMade) {
+            this.checkGameProgress();
         }
     }
 
@@ -189,6 +186,9 @@ class Game extends React.Component {
                     playerTwoScore: this.state.playerTwoScore + 1,
                     goalMade: true,
                 });
+
+                // Stop the game loop to avoid unnecessary function calls between rounds.
+                clearInterval(this.gameLoopInterval);
             }
         }
 
@@ -210,6 +210,9 @@ class Game extends React.Component {
                     playerOneScore: this.state.playerOneScore + 1,
                     goalMade: true,
                 });
+
+                // Stop the game loop to avoid unnecessary function calls between rounds.
+                clearInterval(this.gameLoopInterval);
             }
         }
 
@@ -237,10 +240,7 @@ class Game extends React.Component {
     checkGameProgress() {
         // One of the players has hit the max score, so end the game.
         if (this.state.playerOneScore >= 5 || this.state.playerTwoScore >= 5) {
-            clearInterval(this.gameLoopInterval);
-
             this.setState({
-                gameInProgress: false,
                 winMessage: (this.state.playerOneScore >= 5) ? "Player 1 Wins!" : "Player 2 Wins!",
                 buttonDisabled: false,
             });
@@ -256,7 +256,6 @@ class Game extends React.Component {
                 ballLeftDirection: 1,
                 goalMade: false,
                 timer: 3,
-                gameInProgress: false,
             });
 
             this.createAndStartCountdownTimer();
@@ -273,10 +272,10 @@ class Game extends React.Component {
         }
         else {
             this.setState({
-                gameInProgress: true,
                 timer: '',
             });
             clearInterval(this.waitTimer);
+            this.createAndStartGameLoopInterval();
         }
     }
 
@@ -289,7 +288,6 @@ class Game extends React.Component {
         });
 
         this.createAndStartCountdownTimer();
-        this.createAndStartGameLoopInterval();
     }
 
     resetGame() {
@@ -303,14 +301,12 @@ class Game extends React.Component {
             playerOneScore: 0,
             playerTwoScore: 0,
             goalMade: false,
-            gameInProgress: false,
             timer: '3',
             winMessage: '',
             buttonDisabled: true,
         });
 
         this.createAndStartCountdownTimer();
-        this.createAndStartGameLoopInterval();
     }
 
     createAndStartGameLoopInterval() {
@@ -330,7 +326,7 @@ class Game extends React.Component {
                 <Score playerOneScore={this.state.playerOneScore} playerTwoScore={this.state.playerTwoScore} />
                 <Timer timeRemaining={this.state.timer} />
                 <Result winMessage={this.state.winMessage} />
-                <Menu buttonText={this.state.buttonText} onClick={this.state.buttonFunction} buttonDisabled={this.state.buttonDisabled}/>
+                <Menu buttonText={this.state.buttonText} onClick={this.state.buttonFunction} buttonDisabled={this.state.buttonDisabled} />
             </div>
         );
     }
