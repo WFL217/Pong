@@ -98,8 +98,6 @@ class Game extends React.Component {
         this.handleKeyUp = this.handleKeyUp.bind(this);
         document.addEventListener('keyup', this.handleKeyUp); 
 
-        this.startGame = this.startGame.bind(this);
-
         // This will hold the wait timer for when a goal is scored in order to give the players time between rounds to get ready.
         this.waitTimer = null;
 
