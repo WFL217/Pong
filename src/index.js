@@ -112,8 +112,8 @@ class Game extends React.Component {
     gameLoop() {
         if (this.state.gameInProgress) {
             this.resolvePressedKeys();
-            this.updateBallPosition();
             this.checkForBallCollision();
+            this.updateBallPosition();
             if (this.state.goalMade) {
                 this.checkGameProgress();
             }
@@ -186,7 +186,6 @@ class Game extends React.Component {
             else {
                 // Update player two's score and set the goalMade flag to true.
                 this.setState({
-                    ballLeft: this.state.ballLeft - BALL_SPEED,
                     playerTwoScore: this.state.playerTwoScore + 1,
                     goalMade: true,
                 });
@@ -208,7 +207,6 @@ class Game extends React.Component {
             else {
                 // Update player one's score and set the goalMade flag to true.
                 this.setState({
-                    ballLeft: this.state.ballLeft + BALL_SPEED,
                     playerOneScore: this.state.playerOneScore + 1,
                     goalMade: true,
                 });
