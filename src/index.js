@@ -261,8 +261,7 @@ class Game extends React.Component {
                 gameInProgress: false,
             });
 
-            // Have reduceTimer called every second until it gets cleared.
-            this.waitTimer = setInterval(() => { this.reduceTimer() }, 1000);
+            this.createAndStartCountdownTimer();
         }
     }
 
@@ -291,11 +290,8 @@ class Game extends React.Component {
             timer: '3',
         });
 
-        // Have reduceTimer called every second until it gets cleared.
-        this.waitTimer = setInterval(() => { this.reduceTimer() }, 1000);
-
-        // Call the gameLoop every 33.3 milliseconds, 30 times a second.
-        this.gameLoopInterval = setInterval(() => { this.gameLoop(); }, 33.3);
+        this.createAndStartCountdownTimer();
+        this.createAndStartGameLoopInterval();
     }
 
     resetGame() {
@@ -315,11 +311,18 @@ class Game extends React.Component {
             buttonDisabled: true,
         });
 
-        // Have reduceTimer called every second until it gets cleared.
-        this.waitTimer = setInterval(() => { this.reduceTimer() }, 1000);
+        this.createAndStartCountdownTimer();
+        this.createAndStartGameLoopInterval();
+    }
 
+    createAndStartGameLoopInterval() {
         // Call the gameLoop every 33.3 milliseconds, 30 times a second.
         this.gameLoopInterval = setInterval(() => { this.gameLoop(); }, 33.3);
+    }
+
+    createAndStartCountdownTimer() {
+        // Have reduceTimer called every second until it gets cleared.
+        this.waitTimer = setInterval(() => { this.reduceTimer() }, 1000);
     }
 
     render() {
