@@ -75,8 +75,8 @@ class Game extends React.Component {
             ballLeft: 395,
             leftPaddleTop: 225,
             rightPaddleTop: 225,
-            ballTopDirection: 1,
-            ballLeftDirection: 1,
+            ballTopDirection: this.returnOneOrNegativeOne(),
+            ballLeftDirection: this.returnOneOrNegativeOne(),
             playerOneScore: 0,
             playerTwoScore: 0,
             goalMade: false,
@@ -113,6 +113,11 @@ class Game extends React.Component {
         if (this.state.goalMade) {
             this.checkGameProgress();
         }
+    }
+
+    // Used to add randomness to the ball's directions at the start of a round.
+    returnOneOrNegativeOne() {
+        return Math.round(Math.random()) === 0 ? 1 : -1
     }
 
     // Set index of keyCode in keysPressed to true when a key is pressed.
@@ -254,8 +259,8 @@ class Game extends React.Component {
                     ballLeft: 395,
                     leftPaddleTop: 225,
                     rightPaddleTop: 225,
-                    ballTopDirection: 1,
-                    ballLeftDirection: 1,
+                    ballTopDirection: this.returnOneOrNegativeOne(),
+                    ballLeftDirection: this.returnOneOrNegativeOne(),
                     goalMade: false,
                     timer: 3,
                 });
@@ -298,8 +303,8 @@ class Game extends React.Component {
             ballLeft: 395,
             leftPaddleTop: 225,
             rightPaddleTop: 225,
-            ballTopDirection: 1,
-            ballLeftDirection: 1,
+            ballTopDirection: this.returnOneOrNegativeOne(),
+            ballLeftDirection: this.returnOneOrNegativeOne(),
             playerOneScore: 0,
             playerTwoScore: 0,
             goalMade: false,
