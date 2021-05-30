@@ -67,7 +67,7 @@ function Menu(props) {
     );
 }
 
-function HowToPlay(props) {
+function HowToPlay() {
     return (
         <div style={{ position: 'absolute', }}>
             <div style={{ position: 'absolute', top: '500px', width: '150px', textAlign: 'left' }}>
@@ -75,7 +75,7 @@ function HowToPlay(props) {
                 <p>W: Up</p>
                 <p>S: Down</p>
             </div>
-            <div style={{ position: 'absolute', top: '500px', left: '700px', width: '150px', textAlign: 'left' }}>
+            <div style={{ position: 'absolute', top: '500px', left: '735px', width: '150px', textAlign: 'left' }}>
                 <h3>Player 2</h3>
                 <p>&#x2191; : Up</p>
                 <p>&#x2193; : Down</p>
