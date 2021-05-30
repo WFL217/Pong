@@ -115,7 +115,7 @@ class Game extends React.Component {
         }
     }
 
-    // Used to add randomness to the ball's directions at the start of a round.
+    // Used to add randomness to the ball's direction at the start of a round.
     returnOneOrNegativeOne() {
         return Math.round(Math.random()) === 0 ? 1 : -1
     }
@@ -186,7 +186,6 @@ class Game extends React.Component {
             else {
                 // Update player two's score and set the goalMade flag to true.
                 this.setState({
-                    ballLeft: 15,
                     playerTwoScore: this.state.playerTwoScore + 1,
                     goalMade: true,
                 });
@@ -211,7 +210,6 @@ class Game extends React.Component {
             else {
                 // Update player one's score and set the goalMade flag to true.
                 this.setState({
-                    ballLeft: 773,
                     playerOneScore: this.state.playerOneScore + 1,
                     goalMade: true,
                 });
