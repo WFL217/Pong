@@ -67,6 +67,23 @@ function Menu(props) {
     );
 }
 
+function HowToPlay(props) {
+    return (
+        <div style={{ position: 'absolute', }}>
+            <div style={{ position: 'absolute', top: '500px', width: '150px', textAlign: 'left' }}>
+                <h3>Player 1</h3>
+                <p>W: Up</p>
+                <p>S: Down</p>
+            </div>
+            <div style={{ position: 'absolute', top: '500px', left: '700px', width: '150px', textAlign: 'left' }}>
+                <h3>Player 2</h3>
+                <p>&#x2191; : Up</p>
+                <p>&#x2193; : Down</p>
+            </div>
+        </div>
+    );
+}
+
 class Game extends React.Component {
     constructor(props) {
         super(props);
@@ -332,6 +349,7 @@ class Game extends React.Component {
                 <Timer timeRemaining={this.state.timer} />
                 <Result winMessage={this.state.winMessage} />
                 <Menu buttonText={this.state.buttonText} onClick={this.state.buttonFunction} buttonDisabled={this.state.buttonDisabled} />
+                <HowToPlay />
             </div>
         );
     }
