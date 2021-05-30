@@ -189,8 +189,8 @@ class Game extends React.Component {
 
     checkForBallCollision() {
         // Collision with left goal bounds.
-        if ((this.state.ballLeftDirection < 0) &&           // If ball is moving left AND
-            (this.state.ballLeft - BALL_SPEED <= 13)) {     // If the current ball left position minus its speed is <= to the position of the right side of the left paddle.
+        if ((this.state.ballLeftDirection < 0) &&   // If ball is moving left AND
+            (this.state.ballLeft <= 13)) {          // If the current ball left position is <= to the position of the right side of the left paddle.
             // Check to see if ball collides with left paddle or makes it into the left goal.
             if ((this.state.ballTop + 10 >= this.state.leftPaddleTop) &&    // If the ball is below the top position of the left paddle AND
                 (this.state.ballTop <= this.state.leftPaddleTop + 50)) {    // If the ball is above the bottom position of the left paddle.
@@ -213,8 +213,8 @@ class Game extends React.Component {
         }
 
         // Collision with right goal bounds.
-        if ((this.state.ballLeftDirection > 0) &&           // If the ball is moving right AND
-            (this.state.ballLeft + BALL_SPEED >= 775)) {    // If the current ball right position plus its speed is >= to the position of the left side of the right paddle.
+        if ((this.state.ballLeftDirection > 0) &&   // If the ball is moving right AND
+            (this.state.ballLeft >= 775)) {         // If the current ball right position is >= to the position of the left side of the right paddle.
             // Check to see if ball collides with right paddle or makes it into the right goal.
             if ((this.state.ballTop + 10 >= this.state.rightPaddleTop) &&   // If the ball is below the top position of the right paddle AND
                 (this.state.ballTop <= this.state.rightPaddleTop + 50)) {   // If the ball is above the bottom position of the right paddle.
