@@ -14,7 +14,7 @@ function Ball(props) {
 
 function Paddle(props) {
     return (
-        <div className='paddle' id={'paddle' + props.value} style={{ position: props.position, zIndex: props.zIndex, top: props.top + 'px', left: props.left}}>
+        <div className='paddle' id={'paddle' + props.value} style={{ position: props.position, zIndex: props.zIndex, top: props.top + 'px', left: props.left }}>
         </div>
     );
 }
@@ -29,13 +29,13 @@ function Board(props) {
     );
 }
 
-function Score(props){
+function Score(props) {
     return (
         <div style={{ position: 'absolute', left: '407px', top: '500px' }}>
-            <div style={{ position: 'absolute', right: '10px'}}>
+            <div style={{ position: 'absolute', right: '10px' }}>
                 <h2>{props.playerOneScore}</h2>
             </div>
-            <h2 style={{ position: 'absolute'}}>:</h2>
+            <h2 style={{ position: 'absolute' }}>:</h2>
             <div style={{ position: 'absolute', left: '20px' }}>
                 <h2>{props.playerTwoScore}</h2>
             </div>
@@ -45,7 +45,7 @@ function Score(props){
 
 function Timer(props) {
     return (
-        <div style={{ position: 'absolute', top: '10px', left: '407px'}}>
+        <div style={{ position: 'absolute', top: '10px', left: '407px' }}>
             <h2>{props.timeRemaining}</h2>
         </div>
     );
@@ -96,7 +96,7 @@ class Game extends React.Component {
 
         // Setup event handler for keyboard input when releasing a key.
         this.handleKeyUp = this.handleKeyUp.bind(this);
-        document.addEventListener('keyup', this.handleKeyUp); 
+        document.addEventListener('keyup', this.handleKeyUp);
 
         // This will hold the wait timer for when a goal is scored in order to give the players time between rounds to get ready.
         this.waitTimer = null;
@@ -181,6 +181,7 @@ class Game extends React.Component {
             else {
                 // Update player two's score and set the goalMade flag to true.
                 this.setState({
+                    ballLeft: 15,
                     playerTwoScore: this.state.playerTwoScore + 1,
                     goalMade: true,
                 });
@@ -205,6 +206,7 @@ class Game extends React.Component {
             else {
                 // Update player one's score and set the goalMade flag to true.
                 this.setState({
+                    ballLeft: 773,
                     playerOneScore: this.state.playerOneScore + 1,
                     goalMade: true,
                 });
