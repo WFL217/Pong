@@ -38,7 +38,7 @@ function Score(props) {
 function Timer(props) {
     return (
         <div className='timer'>
-            <h2>{props.timeRemaining}</h2>
+            <h1>{props.timeRemaining}</h1>
         </div>
     );
 }
@@ -46,7 +46,7 @@ function Timer(props) {
 function Result(props) {
     return (
         <div className='result'>
-            <h2>{props.winMessage}</h2>
+            <h1>{props.winMessage}</h1>
         </div>
     );
 }

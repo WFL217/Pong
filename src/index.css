@@ -1,5 +1,4 @@
 .gamecontainer {
-    border: 3px solid #999;
     position: relative;
     height: 700px;
     width: 805px;
@@ -10,7 +9,7 @@
 
 .gameboard {
     background: #fff;
-    border: 3px solid #999;
+    border: 7px solid #999;
     position: absolute;
     top: 0%;
     bottom: 0%;
@@ -22,8 +21,8 @@
 }
 
 .paddle {
-    background: #fff;
-    border: 1px solid #999;
+    background: #676767;
+    border: 1px solid #666;
     position: absolute;
     height: 50px;
     width: 10px;
@@ -31,8 +30,8 @@
 }
 
 .ball {
-    background: #fff;
-    border: 1px solid #999;
+    background: #676767;
+    border: 1px solid #666;
     position: absolute;
     height: 10px;
     width: 10px;
@@ -40,6 +39,7 @@
 }
 
 .timer {
+    color: #000;
     position: absolute;
     top: 20%;
     left: 0%;
@@ -51,6 +51,7 @@
 }
 
 .result {
+    color: #000;
     position: absolute;
     top: 20%;
     left: 0%;
