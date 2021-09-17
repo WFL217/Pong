@@ -7,45 +7,37 @@ const PADDLE_SPEED = 20;
 
 function Ball(props) {
     return (
-        <div className='ball' style={{ position: props.position, zIndex: props.zIndex, top: props.top + 'px', left: props.left + 'px' }}>
-        </div>
+        <div className='ball' style={{ top: props.top + 'px', left: props.left + 'px' }} />
     );
 }
 
 function Paddle(props) {
     return (
-        <div className='paddle' id={'paddle' + props.value} style={{ position: props.position, zIndex: props.zIndex, top: props.top + 'px', left: props.left }}>
-        </div>
+        <div className='paddle' style={{ top: props.top + 'px', left: props.left, right: props.right }} />
     );
 }
 
 function Board(props) {
     return (
-        <div className='gameboard' style={{ position: 'absolute' }} tabIndex="0">
-            <Paddle position={'absolute'} zIndex={'10'} left={'2px'} top={props.leftPaddleTop} />
-            <Paddle position={'absolute'} zIndex={'10'} left={'786px'} top={props.rightPaddleTop} />
-            <Ball position={'absolute'} zIndex={'20'} left={props.ballLeft} top={props.ballTop} />
+        <div className='gameboard' tabIndex="0">
+            <Paddle left={'1%'} top={props.leftPaddleTop} />
+            <Paddle right={'1%'} top={props.rightPaddleTop} />
+            <Ball left={props.ballLeft} top={props.ballTop} />
         </div>
     );
 }
 
 function Score(props) {
     return (
-        <div style={{ position: 'absolute', left: '407px', top: '500px' }}>
-            <div style={{ position: 'absolute', right: '10px' }}>
-                <h2>{props.playerOneScore}</h2>
-            </div>
-            <h2 style={{ position: 'absolute' }}>:</h2>
-            <div style={{ position: 'absolute', left: '20px' }}>
-                <h2>{props.playerTwoScore}</h2>
-            </div>
+        <div className='score'>
+            <h2>{props.playerOneScore} : {props.playerTwoScore}</h2>
         </div>
     );
 }
 
 function Timer(props) {
     return (
-        <div style={{ position: 'absolute', top: '10px', left: '407px' }}>
+        <div className='timer'>
             <h2>{props.timeRemaining}</h2>
         </div>
     );
@@ -53,7 +45,7 @@ function Timer(props) {
 
 function Result(props) {
     return (
-        <div style={{ position: 'absolute', top: '150px', left: '325px', textAlign: 'center' }}>
+        <div className='result'>
             <h2>{props.winMessage}</h2>
         </div>
     );
@@ -61,7 +53,7 @@ function Result(props) {
 
 function Menu(props) {
     return (
-        <div style={{ position: 'absolute', left: '370px', top: '550px' }}>
+        <div className='menu'>
             <button disabled={props.buttonDisabled} onClick={props.onClick}>{props.buttonText}</button>
         </div>
     );
@@ -69,13 +61,13 @@ function Menu(props) {
 
 function HowToPlay() {
     return (
-        <div style={{ position: 'absolute', }}>
-            <div style={{ position: 'absolute', top: '500px', width: '150px', textAlign: 'left' }}>
+        <div className='instructions'>
+            <div style={{ position: 'absolute', left: '3%' }}>
                 <h3>Player 1</h3>
                 <p>W: Up</p>
                 <p>S: Down</p>
             </div>
-            <div style={{ position: 'absolute', top: '500px', left: '735px', width: '150px', textAlign: 'left' }}>
+            <div style={{ position: 'absolute', right: '3%' }}>
                 <h3>Player 2</h3>
                 <p>&#x2191; : Up</p>
                 <p>&#x2193; : Down</p>
@@ -89,7 +81,7 @@ class Game extends React.Component {
         super(props);
         this.state = {
             ballTop: 245,
-            ballLeft: 395,
+            ballLeft: 398,
             leftPaddleTop: 225,
             rightPaddleTop: 225,
             ballTopDirection: this.returnOneOrNegativeOne(),
@@ -271,7 +263,7 @@ class Game extends React.Component {
             setTimeout(() => {
                 this.setState({
                     ballTop: 245,
-                    ballLeft: 395,
+                    ballLeft: 398,
                     leftPaddleTop: 225,
                     rightPaddleTop: 225,
                     ballTopDirection: this.returnOneOrNegativeOne(),
@@ -315,7 +307,7 @@ class Game extends React.Component {
     resetGame() {
         this.setState({
             ballTop: 245,
-            ballLeft: 395,
+            ballLeft: 398,
             leftPaddleTop: 225,
             rightPaddleTop: 225,
             ballTopDirection: this.returnOneOrNegativeOne(),
@@ -343,7 +335,7 @@ class Game extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className='gamecontainer'>
                 <Board leftPaddleTop={this.state.leftPaddleTop} rightPaddleTop={this.state.rightPaddleTop} ballLeft={this.state.ballLeft} ballTop={this.state.ballTop} />
                 <Score playerOneScore={this.state.playerOneScore} playerTwoScore={this.state.playerTwoScore} />
                 <Timer timeRemaining={this.state.timer} />
