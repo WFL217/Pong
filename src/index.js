@@ -80,8 +80,8 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ballTop: 245,
-            ballLeft: 398,
+            ballTop: 244,
+            ballLeft: 390,
             leftPaddleTop: 225,
             rightPaddleTop: 225,
             ballTopDirection: this.returnOneOrNegativeOne(),
@@ -262,8 +262,8 @@ class Game extends React.Component {
             // Need to wait a second before starting the next round so the players can see where the ball landed in the goal space.
             setTimeout(() => {
                 this.setState({
-                    ballTop: 245,
-                    ballLeft: 398,
+                    ballTop: 244,
+                    ballLeft: 390,
                     leftPaddleTop: 225,
                     rightPaddleTop: 225,
                     ballTopDirection: this.returnOneOrNegativeOne(),
@@ -307,7 +307,7 @@ class Game extends React.Component {
     resetGame() {
         this.setState({
             ballTop: 245,
-            ballLeft: 398,
+            ballLeft: 390,
             leftPaddleTop: 225,
             rightPaddleTop: 225,
             ballTopDirection: this.returnOneOrNegativeOne(),

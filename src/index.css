@@ -21,7 +21,7 @@
 }
 
 .paddle {
-    background: #676767;
+    background: #444;
     border: 1px solid #666;
     position: absolute;
     height: 50px;
@@ -30,7 +30,7 @@
 }
 
 .ball {
-    background: #676767;
+    background: #444;
     border: 1px solid #666;
     position: absolute;
     height: 10px;
