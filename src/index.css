@@ -64,7 +64,7 @@
 
 .score {
     position: absolute;
-    bottom: 20%;
+    bottom: 19%;
     left: 0%;
     right: 0%;
     width: 10%;
@@ -86,7 +86,7 @@
 
 .instructions {
     position: absolute;
-    bottom: 0%;
+    bottom: -1%;
     height: 200px;
     width: inherit;
     text-align: left;
