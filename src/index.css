@@ -75,9 +75,10 @@
 
 .menu {
     position: absolute;
-    bottom: 18%;
+    bottom: 10%;
     left: 0%;
     right: 0%;
+    height: 10%;
     width: 15%;
     margin: 0 auto;
     text-align: center;
