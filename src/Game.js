@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './Game.css';
+
 import Board from './Board';
 import Score from './Score';
 import Timer from './Timer';
