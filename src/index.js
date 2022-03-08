@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
 
-import Pong from './Pong';
+import App from './App';
 
-ReactDOM.render(<Pong/>, document.getElementById("root"));
+ReactDOM.render(<App/>, document.getElementById("root"));
