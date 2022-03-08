@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Game.css';
+import './Pong.css';
 
 import Board from './Board';
 import Score from './Score';
@@ -12,7 +12,7 @@ import HowToPlay from './HowToPlay';
 const BALL_SPEED = 15;
 const PADDLE_SPEED = 20;
 
-class Game extends React.Component {
+class Pong extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -283,4 +283,4 @@ class Game extends React.Component {
     }
 }
 
-export default Game;
+export default Pong;
