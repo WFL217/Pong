@@ -1,3 +1,5 @@
+import './App.css';
+
 import Pong from './Pong';
 
 function App () {
